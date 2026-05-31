@@ -4,19 +4,90 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>p5.js 작품 모음</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 40px 24px;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+    }
+
+    h1 { margin-bottom: 8px; font-size: 2rem; }
+    .subtitle { margin-bottom: 28px; opacity: 0.85; }
+
+    #projects {
+      display: grid;
+      grid-template-columns: 1fr 1fr;   /* 2열 */
+      grid-template-rows: 1fr 1fr;      /* 2행 */
+      gap: 18px;
+      width: 100%;
+      max-width: 720px;
+    }
+
+    .cell {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;        /* ← 작품 캔버스가 정사각형이면 1/1 */
+      overflow: hidden;           /* 스크롤바/넘침 숨김 */
+      border-radius: 12px;
+      background: #000;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      transition: transform 0.25s ease;
+    }
+    .cell:hover { transform: translateY(-6px) scale(1.02); }
+
+    .cell .label {
+      position: absolute;
+      top: 8px; left: 8px;
+      z-index: 2;
+      padding: 3px 10px;
+      font-size: 0.75rem;
+      background: rgba(0,0,0,0.55);
+      border-radius: 6px;
+    }
+
+    .cell iframe {
+      position: absolute;
+      top: 0; left: 0;
+      transform-origin: top left;
+      border: none;
+      overflow: hidden;
+    }
+  </style>
 </head>
 <body>
-
   <h1>나의 p5.js 작품</h1>
   <p class="subtitle">정적 작품과 동적 작품 모음 (2×2)</p>
 
   <main id="projects">
-    <div class="cell"><span class="label">과제 1</span><iframe src="sample1/index.html"></iframe></div>
-    <div class="cell"><span class="label">과제 4</span><iframe src="sample4/index.html"></iframe></div>
-    <div class="cell"><span class="label">과제 2</span><iframe src="sample2/index.html"></iframe></div>
-    <div class="cell"><span class="label">과제 3</span><iframe src="sample3/index.html"></iframe></div>
+    <div class="cell"><span class="label">과제 1</span><iframe src="sample1/index.html" scrolling="no"></iframe></div>
+    <div class="cell"><span class="label">과제 4</span><iframe src="sample4/index.html" scrolling="no"></iframe></div>
+    <div class="cell"><span class="label">과제 2</span><iframe src="sample2/index.html" scrolling="no"></iframe></div>
+    <div class="cell"><span class="label">과제 3</span><iframe src="sample3/index.html" scrolling="no"></iframe></div>
   </main>
 
+  <script>
+    // 각 작품 캔버스 실제 크기에 맞춰 자동으로 축소/배치
+    const CANVAS_W = 600;   // ← 너의 createCanvas() 가로 크기로 수정
+    const CANVAS_H = 600;   // ← 너의 createCanvas() 세로 크기로 수정
+
+    function fit() {
+      document.querySelectorAll('.cell').forEach(cell => {
+        const f = cell.querySelector('iframe');
+        const scale = cell.clientWidth / CANVAS_W;
+        f.style.width  = CANVAS_W + 'px';
+        f.style.height = CANVAS_H + 'px';
+        f.style.transform = 'scale(' + scale + ')';
+      });
+    }
+    window.addEventListener('load', fit);
+    window.addEventListener('resize', fit);
+  </script>
 </body>
 </html>
