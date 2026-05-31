@@ -26,13 +26,13 @@
       gap: 18px;
       width: 100%;
       max-width: 760px;
-      align-items: start;          /* 칸 높이 제각각 허용 */
+      align-items: start;
     }
 
     .cell {
       position: relative;
       width: 100%;
-      overflow: hidden;            /* 넘침/검은여백 숨김 */
+      overflow: hidden;
       border-radius: 12px;
       background: #000;
       box-shadow: 0 8px 24px rgba(0,0,0,0.35);
@@ -42,13 +42,27 @@
 
     .cell .label {
       position: absolute;
-      top: 8px; left: 8px;
+      top: 10px; left: 10px;
       z-index: 2;
-      padding: 3px 10px;
-      font-size: 0.75rem;
-      background: rgba(0,0,0,0.55);
-      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: rgba(0,0,0,0.6);
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
     }
+    .label .badge {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    .badge.static  { background: #4caf50; }   /* 정적 */
+    .badge.dynamic { background: #ff7043; }    /* 동적 */
+
     .cell iframe {
       position: absolute;
       top: 0; left: 0;
@@ -59,13 +73,25 @@
 </head>
 <body>
   <h1>나의 p5.js 작품</h1>
-  <p class="subtitle">정적 작품과 동적 작품 모음 (2×2)</p>
+  <p class="subtitle">추상화와 캐릭터, 정적에서 동적으로 (2×2)</p>
 
   <main id="projects">
-    <div class="cell" data-w="600" data-h="400"><span class="label">과제 1</span><iframe src="sample1/index.html" scrolling="no"></iframe></div>
-    <div class="cell" data-w="600" data-h="400"><span class="label">과제 4</span><iframe src="sample4/index.html" scrolling="no"></iframe></div>
-    <div class="cell" data-w="400" data-h="600"><span class="label">과제 2</span><iframe src="sample2/index.html" scrolling="no"></iframe></div>
-    <div class="cell" data-w="400" data-h="600"><span class="label">과제 3</span><iframe src="sample3/index.html" scrolling="no"></iframe></div>
+    <div class="cell" data-w="600" data-h="400">
+      <span class="label"><span class="badge static">정적</span>과제 1 · 추상화 그리기</span>
+      <iframe src="sample1/index.html" scrolling="no"></iframe>
+    </div>
+    <div class="cell" data-w="600" data-h="400">
+      <span class="label"><span class="badge dynamic">동적</span>과제 4 · 추상화에 움직임 넣기</span>
+      <iframe src="sample4/index.html" scrolling="no"></iframe>
+    </div>
+    <div class="cell" data-w="600" data-h="400">
+      <span class="label"><span class="badge static">정적</span>과제 2 · 캐릭터 그리기</span>
+      <iframe src="sample2/index.html" scrolling="no"></iframe>
+    </div>
+    <div class="cell" data-w="600" data-h="400">
+      <span class="label"><span class="badge dynamic">동적</span>과제 3 · 움직이는 캐릭터</span>
+      <iframe src="sample3/index.html" scrolling="no"></iframe>
+    </div>
   </main>
 
   <script>
@@ -75,7 +101,7 @@
         const h = +cell.dataset.h;
         const f = cell.querySelector('iframe');
         const scale = cell.clientWidth / w;
-        cell.style.height = (h * scale) + 'px';   // 칸 높이를 캔버스 비율에 맞춤
+        cell.style.height = (h * scale) + 'px';
         f.style.width  = w + 'px';
         f.style.height = h + 'px';
         f.style.transform = 'scale(' + scale + ')';
@@ -86,3 +112,4 @@
   </script>
 </body>
 </html>
+
