@@ -17,24 +17,22 @@
       font-family: 'Segoe UI', sans-serif;
       color: #fff;
     }
-
     h1 { margin-bottom: 8px; font-size: 2rem; }
     .subtitle { margin-bottom: 28px; opacity: 0.85; }
 
     #projects {
       display: grid;
-      grid-template-columns: 1fr 1fr;   /* 2열 */
-      grid-template-rows: 1fr 1fr;      /* 2행 */
+      grid-template-columns: 1fr 1fr;
       gap: 18px;
       width: 100%;
-      max-width: 720px;
+      max-width: 760px;
+      align-items: start;          /* 칸 높이 제각각 허용 */
     }
 
     .cell {
       position: relative;
       width: 100%;
-      aspect-ratio: 1 / 1;        /* ← 작품 캔버스가 정사각형이면 1/1 */
-      overflow: hidden;           /* 스크롤바/넘침 숨김 */
+      overflow: hidden;            /* 넘침/검은여백 숨김 */
       border-radius: 12px;
       background: #000;
       box-shadow: 0 8px 24px rgba(0,0,0,0.35);
@@ -51,13 +49,11 @@
       background: rgba(0,0,0,0.55);
       border-radius: 6px;
     }
-
     .cell iframe {
       position: absolute;
       top: 0; left: 0;
       transform-origin: top left;
       border: none;
-      overflow: hidden;
     }
   </style>
 </head>
@@ -66,23 +62,22 @@
   <p class="subtitle">정적 작품과 동적 작품 모음 (2×2)</p>
 
   <main id="projects">
-    <div class="cell"><span class="label">과제 1</span><iframe src="sample1/index.html" scrolling="no"></iframe></div>
-    <div class="cell"><span class="label">과제 4</span><iframe src="sample4/index.html" scrolling="no"></iframe></div>
-    <div class="cell"><span class="label">과제 2</span><iframe src="sample2/index.html" scrolling="no"></iframe></div>
-    <div class="cell"><span class="label">과제 3</span><iframe src="sample3/index.html" scrolling="no"></iframe></div>
+    <div class="cell" data-w="600" data-h="400"><span class="label">과제 1</span><iframe src="sample1/index.html" scrolling="no"></iframe></div>
+    <div class="cell" data-w="600" data-h="400"><span class="label">과제 4</span><iframe src="sample4/index.html" scrolling="no"></iframe></div>
+    <div class="cell" data-w="400" data-h="600"><span class="label">과제 2</span><iframe src="sample2/index.html" scrolling="no"></iframe></div>
+    <div class="cell" data-w="400" data-h="600"><span class="label">과제 3</span><iframe src="sample3/index.html" scrolling="no"></iframe></div>
   </main>
 
   <script>
-    // 각 작품 캔버스 실제 크기에 맞춰 자동으로 축소/배치
-    const CANVAS_W = 600;   // ← 너의 createCanvas() 가로 크기로 수정
-    const CANVAS_H = 600;   // ← 너의 createCanvas() 세로 크기로 수정
-
     function fit() {
       document.querySelectorAll('.cell').forEach(cell => {
+        const w = +cell.dataset.w;
+        const h = +cell.dataset.h;
         const f = cell.querySelector('iframe');
-        const scale = cell.clientWidth / CANVAS_W;
-        f.style.width  = CANVAS_W + 'px';
-        f.style.height = CANVAS_H + 'px';
+        const scale = cell.clientWidth / w;
+        cell.style.height = (h * scale) + 'px';   // 칸 높이를 캔버스 비율에 맞춤
+        f.style.width  = w + 'px';
+        f.style.height = h + 'px';
         f.style.transform = 'scale(' + scale + ')';
       });
     }
